@@ -1,8 +1,9 @@
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
-import { User } from '../entities/user.entity';
 import * as dotenv from 'dotenv';
 import * as chalk from 'chalk';
 import { DataSource } from 'typeorm';
+import { Post } from '../entities/post.entity';
+import { Tag } from '../entities/tag.entity';
 
 dotenv.config();
 
@@ -31,7 +32,7 @@ export const typeOrmConfig: TypeOrmModuleAsyncOptions = {
     password: process.env.POSTGRES_PASSWORD, 
     database: process.env.POSTGRES_DATABASE,
     entities: [
-      User
+      Post,Tag
      ],
     migrations: [],
     autoLoadEntities: true,

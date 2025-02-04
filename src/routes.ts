@@ -1,10 +1,15 @@
 
 import { Routes } from 'nest-router';
-import { UserModule } from './modules/user/user.module'; 
+import { PostModule } from './modules/post/post.module'; 
+import { TagModule } from '@modules/tag/tag.module';
 export const routes: Routes = [
   {
-    path: '/user',
-    module: UserModule,
+    path: '/post',
+    module: PostModule,
+  },
+  {
+    path: '/tag',
+    module: TagModule,
   },
   
 ];

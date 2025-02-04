@@ -1,21 +1,22 @@
 import { Module,forwardRef } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { UserModule } from '../user/user.module';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from '@shared/utils/constant';
-
+import * as fs from 'fs';
+import * as path from 'path';
+import { PostModule } from '../post/post.module';
+import { TagModule } from '@modules/tag2/tag.module';
 
 @Module({
-    imports: [forwardRef(()=>UserModule),
+    imports: [forwardRef(()=>TagModule),forwardRef(()=>PostModule),
      
         JwtModule.register({
-            secret: jwtConstants.secret,
-            signOptions: { expiresIn: '3600000s' },
+            privateKey: fs.readFileSync(path.join(process.cwd(), 'private.key'), 'utf8'), // مسیر کلید خصوصی از ریشه پروژه
+            publicKey: fs.readFileSync(path.join(process.cwd(), 'public.key'), 'utf8'),   // مسیر کلید عمومی از ریشه پروژه
+            signOptions: { expiresIn: '3600000s', algorithm: 'RS256' },
+            verifyOptions: { algorithms: ['RS256'] },
         }),
     ],
-    providers: [AuthService],
-    controllers: [AuthController],
+    providers: [],
+    controllers: [],
     exports:[JwtModule]
 })
 export class AuthModule { }

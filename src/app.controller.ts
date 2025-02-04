@@ -1,9 +1,8 @@
 import { Controller, Get, ServiceUnavailableException } from '@nestjs/common';
-import { UserRepository } from './modules/user/user.repository';
 
 @Controller()
 export class AppController {
-  constructor(private userRepository: UserRepository) {}
+  constructor() {}
 
   @Get('/heartbeat')
   public async heartBeat(): Promise<void> {
@@ -11,7 +10,6 @@ export class AppController {
     try {
       console.log('heartBeat');
       
-      await this.userRepository.findOne({ where: {} });
     } catch (error) {
       throw new ServiceUnavailableException();
     }

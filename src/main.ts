@@ -12,6 +12,8 @@ import { server } from './config/server.config';
 import { DataBaseErrorInterceptor } from './error/error.interceptor';
 import { dbEnvironmentValidation } from './config/database.config';
 import { versioningConfig } from './config/versioning.config';
+import { ResponseInterceptor } from './interceptor/response.interceptor';
+import { AllExceptionsFilter } from './interceptor/error-response.interceptor';
 
 async function bootstrap() {
   // Environment Configuration & Validation
@@ -23,6 +25,8 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalInterceptors(new DataBaseErrorInterceptor());
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.setGlobalPrefix('api');
